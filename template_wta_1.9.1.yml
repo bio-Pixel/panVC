@@ -1,0 +1,72 @@
+#!/usr/bin/env cwl-runner
+
+cwl:tool: rhapsody
+
+# This is a template YML file used to specify the inputs for a BD Genomics WTA Rhapsody Analysis pipeline run. See the
+# BD Genomics Analysis Setup User Guide (Doc ID: 47383) for more details. Enter the following information:
+
+
+## Reads (required) - Path to your read files in the FASTQ.GZ format. You may specify as many R1/R2 read pairs as you want.
+Reads:
+
+ - class: File
+   location: $fastq1
+
+ - class: File
+   location: $fastq2
+
+#  - class: File
+#    location: $fastq_tag1
+
+#  - class: File
+#    location: $fastq_tag2
+
+## Reference_Genome (required) - Path to STAR index for tar.gz format. See Doc ID: 47383 for instructions to obtain pre-built STAR index file.
+Reference_Genome:
+   class: File
+   location: $STAR_path
+
+## Transcriptome_Annotation (required) - Path to GTF annotation file
+Transcriptome_Annotation:
+   class: File
+   location: $gtf_path
+
+## AbSeq_Reference (optional) - Path to the AbSeq reference file in FASTA format.  Only needed if BD AbSeq Ab-Oligos are used.
+#AbSeq_Reference:
+# - class: File
+#   location: "test/AbSeq_reference.fasta"
+
+####################################
+## Putative Cell Calling Settings ##
+####################################
+
+## Exact cell count - Set a specific number (>=1) of cells as putative, based on those with the highest error-corrected read count
+#Exact_Cell_Count: 10000
+
+## Disable Refined Putative Cell Calling - Determine putative cells using only the basic algorithm (minimum second derivative along the cumulative reads curve).  The refined algorithm attempts to remove false positives and recover false negatives, but may not be ideal for certain complex mixtures of cell types.  Does not apply if Exact Cell Count is set.
+## values can be true or false.
+#Basic_Algo_Only: true
+
+########################
+## Subsample Settings ##
+########################
+
+## Subsample (optional) - A number >1 or fraction (0 < n < 1) to indicate the number or percentage of reads to subsample.
+#Subsample: 0.01
+
+## Subsample seed (optional) - A seed for replicating a previous subsampled run.
+#Subsample_seed: 3445
+
+#######################
+## Multiplex options ##
+#######################
+
+## Sample Tags Version (optional) - Specify if multiplexed run: human, hs, mouse or mm
+Sample_Tags_Version: human
+
+## Subsample Sample Tags (optional) -  A number >1 or fraction (0 < n < 1) to indicate the number or percentage of reads to subsample.
+#Subsample_Tags: 0.05
+
+## Tag_Names (optional) - Specify the tag number followed by '-' and the desired sample name to appear in Sample_Tag_Metrics.csv
+# Do not use the special characters: &, (), [], {},  <>, ?, |
+# Tag_Names: [7-XZJ, 8-JLY]
